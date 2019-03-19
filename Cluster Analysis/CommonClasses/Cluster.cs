@@ -23,8 +23,27 @@ namespace Cluster_Analysis.CommonClasses
         /// </summary>
         public Centroid<T> Cendroid { get; private set; }
 
-        public 
+        /// <summary>
+        /// Конструктор класса Cluster
+        /// </summary>
+        /// <param name="id">Идентификатор</param>
+        /// <param name="data">Данные, относящиеся к кластеру</param>
+        /// <param name="cendroid">Центроид кластера</param>
+        public Cluster(int id, List<Clustered_Data<T>> data, Centroid<T> cendroid)
+        {
+            Id = id;
+            Data = data;
+            Cendroid = cendroid;
+        }
 
-
+        /// <summary>
+        /// Расчет внутрикластерного расстояния
+        /// </summary>
+        public double IntraClusterDistance()
+        {
+            //TODO: Реализовать
+            double value = default(double);
+            return value;
+        }
     }
 }

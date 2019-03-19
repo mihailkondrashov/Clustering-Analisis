@@ -3,13 +3,8 @@ using System.Collections.Generic;
 using Cluster_Analysis.CommonClasses;
 namespace Cluster_Analysis
 {
-    public class K_Means<T>:IClustering
+    public class K_Means<T>:IClustering<T>
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        public int[] ClusteringsMatrix { get; set; }
-
         /// <summary>
         /// 
         /// </summary>
@@ -33,8 +28,16 @@ namespace Cluster_Analysis
         /// <summary>
         /// 
         /// </summary>
+        public K_Means(int countOfClusters)
+        {
+            CountOfClusters = countOfClusters;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <returns></returns>
-        public int[] Clustering(List<double> clustered_Data)
+        public List<Cluster<T>> Clustering(List<double> clustered_Data)
         {
             throw new NotImplementedException();
         }

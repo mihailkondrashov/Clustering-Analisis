@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Cluster_Analysis.CommonClasses;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,13 +7,8 @@ using System.Threading.Tasks;
 
 namespace Cluster_Analysis
 {
-    interface IClustering
+    interface IClustering<T>
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        int[] ClusteringsMatrix { get; set; }
-
         /// <summary>
         /// 
         /// </summary>
@@ -27,6 +23,6 @@ namespace Cluster_Analysis
         /// 
         /// </summary>
         /// <returns></returns>
-        int[] Clustering(List<double> clustered_Data);
+        List<Cluster<T>> Clustering(List<double> clustered_Data);
     }
 }
