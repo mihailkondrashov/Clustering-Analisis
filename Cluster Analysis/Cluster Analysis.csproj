@@ -40,9 +40,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Centroid.cs" />
-    <Compile Include="IClustering.cs" />
-    <Compile Include="K_Means.cs" />
+    <Compile Include="CommonClasses\Centroid.cs" />
+    <Compile Include="CommonClasses\Cluster.cs" />
+    <Compile Include="Interfaces\IClustering.cs" />
+    <Compile Include="AlgoritmesOfClusterAnalysis\K_Means.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
