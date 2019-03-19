@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+using Cluster_Analysis.CommonClasses;
 namespace Cluster_Analysis
 {
-    public class K_Means:IClustering
+    public class K_Means<T>:IClustering
     {
         /// <summary>
         /// 
@@ -26,12 +23,12 @@ namespace Cluster_Analysis
         /// <summary>
         /// 
         /// </summary>
-        public Dictionary<string,Centroid> StartingsCentroids { get; private set; }
+        public Dictionary<string,Centroid<T>> StartingsCentroids { get; private set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public Dictionary<string, Centroid> FinishesCentroids { get; private set; }
+        public Dictionary<string, Centroid<T>> FinishesCentroids { get; private set; }
 
         /// <summary>
         /// 

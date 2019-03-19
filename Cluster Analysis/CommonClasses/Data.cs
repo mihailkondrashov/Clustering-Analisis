@@ -6,25 +6,28 @@ using System.Threading.Tasks;
 
 namespace Cluster_Analysis.CommonClasses
 {
-    public class Cluster<T>
+    public abstract class Data<T>
     {
         /// <summary>
         /// 
         /// </summary>
-        public int Id { get; set; }
+        protected T X { get; private set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public List<Clustered_Data<T>> Data { get; private set; }
+        protected T Y { get; private set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public Centroid<T> Cendroid { get; private set; }
-
-        public 
-
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        protected Data(T x, T y)
+        {
+            Y = y;
+            X = x;
+        }
 
     }
 }

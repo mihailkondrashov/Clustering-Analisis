@@ -42,6 +42,8 @@
   <ItemGroup>
     <Compile Include="CommonClasses\Centroid.cs" />
     <Compile Include="CommonClasses\Cluster.cs" />
+    <Compile Include="CommonClasses\Clustered_Data.cs" />
+    <Compile Include="CommonClasses\Data.cs" />
     <Compile Include="Interfaces\IClustering.cs" />
     <Compile Include="AlgoritmesOfClusterAnalysis\K_Means.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
