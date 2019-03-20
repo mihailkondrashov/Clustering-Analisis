@@ -26,7 +26,16 @@ namespace TestApp
             K_Means<double> k_means = new K_Means<double>(4, 0.1);
             k_means.Clustering(datanew);
 
-           
+            var clusters = new List<Cluster>();
+
+            clusters.Add(new Cluster (1,new Centroid (10,10)));
+            clusters.Add(new Cluster(2, new Centroid(10, 10)));
+            clusters.Add(new Cluster(3, new Centroid(9, 10)));
+
+            k_means.UpdateClustering(datanew, clusters);
+
+
+
         }
     }
 }

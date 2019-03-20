@@ -104,15 +104,30 @@ namespace Cluster_Analysis
         /// </summary>
         /// <param name="clustered_Data"></param>
         /// <param name="clusters"></param>
-        private void UpdateClustering (List<Clustered_Data> clustered_Data, List<Cluster> clusters)
+        public void UpdateClustering (List<Clustered_Data> clustered_Data, List<Cluster> clusters)
         {
             foreach (var data in clustered_Data) 
             {
-                var min = clusters.Min(a => Euclidian_Distance.GetValueOfEuclidianDistance(a.ClustersCendroid, data));
+                // Поиск 
+                var optimumCluster = (from cluster in clusters // определяем каждый объект из clusters как cluster
+                                      where Euclidian_Distance.GetValueOfEuclidianDistance(cluster.ClustersCendroid, data) ==
+                 clusters.Min(a => Euclidian_Distance.GetValueOfEuclidianDistance(a.ClustersCendroid, data)) //Проверка условия поиска соответсвий
+                                      select cluster);// выбираем объект
+                //
+                var clustersList = from cluster in clusters // определяем каждый объект из clusters как cluster
+                                   where cluster.Data.Any(a => a == data) && optimumCluster.Any(a => a != cluster)
+                                   select cluster;// выбираем объект
 
-                //clusters.Data.Add( (Clustered_Data)(from t in clusters // определяем каждый объект из teams как t
-                //                                   where Euclidian_Distance.GetValueOfEuclidianDistance(t.ClustersCendroid, data) == clustered_Data.Min(a => Euclidian_Distance.GetValueOfEuclidianDistance(a, cluster.ClustersCendroid))
-                //                    select t).FirstOrDefault<Clustered_Data>());// выбираем объект
+                foreach (Cluster cluster in clustersList)
+                {
+                    cluster.Data.Remove(data);
+                }
+
+                //TODO: добавить алгоритм при наличии в optimumCluster нескольких кластеров (по средне кластерному растоянию)
+                //optimumCluster..Add(data);
+
+
+
             }
         }
 
