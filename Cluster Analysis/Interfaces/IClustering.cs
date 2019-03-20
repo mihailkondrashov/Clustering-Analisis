@@ -10,19 +10,20 @@ namespace Cluster_Analysis
     interface IClustering<T>
     {
         /// <summary>
-        /// 
+        /// Количество вычисляемых кластеров
         /// </summary>
         int CountOfClusters { get; set; }
 
         /// <summary>
-        /// 
+        /// Событие завершения расчета кластерного анализа 
         /// </summary>
         event EventHandler EndClustering;
 
         /// <summary>
-        /// 
+        /// Метод кластеризации
         /// </summary>
-        /// <returns></returns>
-        List<Cluster<T>> Clustering(List<double> clustered_Data);
+        /// <param name="clustered_Data">Кластеризуемые данные</param>
+        /// <returns>Список кластеров</returns>
+        List<Cluster> Clustering(List<Clustered_Data> clustered_Data);
     }
 }

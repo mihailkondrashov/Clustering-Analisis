@@ -6,28 +6,27 @@ using System.Threading.Tasks;
 
 namespace Cluster_Analysis.CommonClasses
 {
-    public abstract class Data<T>
+    public abstract class Data
     {
         /// <summary>
         /// 
         /// </summary>
-        protected T X { get; private set; }
+        public double X { get; private set; }
 
         /// <summary>
         /// 
         /// </summary>
-        protected T Y { get; private set; }
+        public double Y { get; private set; }
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        protected Data(T x, T y)
+        /// <param name="values"></param>
+        protected Data(double x, double y)
         {
-            Y = y;
             X = x;
+            Y = y;
         }
-
+        
     }
 }
