@@ -58,20 +58,14 @@ namespace Cluster_Analysis.CommonClasses
         public double IntraClusterDistance()
         {
             double intraClusterDistance = 0.0;
-
-            for (var i = 0; i < Data.Count; i++)
-            {
-                intraClusterDistance += Euclidian_Distance.GetValueOfEuclidianDistance(ClustersCendroid, Data[i]);
-            }
-
             //Недопущение деления на ноль
-            if (intraClusterDistance == 0)
+            if (Data.Count == 0)
             {
                 intraClusterDistance = 0;
             }
             else
             {
-                intraClusterDistance = intraClusterDistance / Data.Count;
+                intraClusterDistance = Data.Average(a => Euclidian_Distance.GetValueOfEuclidianDistance(ClustersCendroid, a));
             }
             return Math.Round(intraClusterDistance, 3);
         }
@@ -81,13 +75,20 @@ namespace Cluster_Analysis.CommonClasses
         /// </summary>
         public void GetGravityCenter()
         {
-            //Расчет центра тяжести кластера
-            Centroid newCentroid = new Centroid(Data.Average(a => a.X), Data.Average(a => a.Y));
-            //Изменение кластерного центроида
-            if (Euclidian_Distance.GetValueOfEuclidianDistance(newCentroid,ClustersCendroid) > 0.5)
+            if (Data.Count != 0)
             {
-                ClustersCendroid = newCentroid;
-                ChangeCentroid.Invoke(this, null);
+                //Расчет центра тяжести кластера
+                Centroid newCentroid = new Centroid(Data.Average(a => a.X), Data.Average(a => a.Y));
+                //Изменение кластерного центроида
+                if (Euclidian_Distance.GetValueOfEuclidianDistance(newCentroid, ClustersCendroid) > 0.5)
+                {
+                    ClustersCendroid = newCentroid;
+                    ChangeCentroid.Invoke(this, null);
+                }
+            }
+            else
+            {
+                ClustersCendroid = ClustersCendroid;
             }
         }
     }

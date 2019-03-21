@@ -38,12 +38,26 @@ namespace TestApp
             int a = 0;
             int b = 0;
             int c = 0;
+            int d = 0;
+            int e = 0;
+
             foreach (var list in clustersList)
             {
-                a+=list.Count(q => q.Data.Count == 3);
+                a += list.Count(q => q.Data.Count == 3);
                 b += list.Count(q => q.Data.Count == 2);
                 c += list.Count(q => q.Data.Count == 1);
+
+                
+
             }
+
+            var ads = new Cluster(1, new Centroid(1, 10));
+            ads.IntraClusterDistance();
+
+            //// Поиск объектов класса Cluster в списке optimumClusters с максимальным внутрикластерным расcтоянием
+            //var nonOptimumClusters = from list in clustersList // определяем каждый объект из clusters как cluster
+            //                         where 
+            //                         select cluster.IntraClusterDistance();// выбираем объект
             b = b / 2;
 
 
