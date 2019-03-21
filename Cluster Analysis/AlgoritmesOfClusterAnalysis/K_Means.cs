@@ -122,7 +122,7 @@ namespace Cluster_Analysis
         /// </summary>
         /// <param name="clustered_Data"></param>
         /// <param name="clusters"></param>
-        public bool UpdateClustering (List<Clustered_Data> clustered_Data, List<Cluster> clusters)
+        private bool UpdateClustering (List<Clustered_Data> clustered_Data, List<Cluster> clusters)
         {
             bool changedClustering = false;
 
@@ -169,7 +169,7 @@ namespace Cluster_Analysis
             return changedClustering;
         }
 
-        public void UpdateCentroids (List<Cluster> clusters)
+        private void UpdateCentroids (List<Cluster> clusters)
         {
             changedCentroids = false;
 
