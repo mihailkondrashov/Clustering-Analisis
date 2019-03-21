@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Cluster_Analysis.AlgoritmesOfClusterAnalysis.DistanceMetrics;
+using System.Linq;
 
 namespace Cluster_Analysis.CommonClasses
 {
@@ -20,6 +21,11 @@ namespace Cluster_Analysis.CommonClasses
         /// Центроид кластера
         /// </summary>
         public Centroid ClustersCendroid { get; private set; }
+
+        /// <summary>
+        /// Событие изменения кластерного центроида
+        /// </summary>
+        public event EventHandler ChangeCentroid;
 
         /// <summary>
         /// Конструктор класса Cluster
@@ -68,6 +74,21 @@ namespace Cluster_Analysis.CommonClasses
                 intraClusterDistance = intraClusterDistance / Data.Count;
             }
             return Math.Round(intraClusterDistance, 3);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public void GetGravityCenter()
+        {
+            //Расчет центра тяжести кластера
+            Centroid newCentroid = new Centroid(Data.Average(a => a.X), Data.Average(a => a.Y));
+            //Изменение кластерного центроида
+            if (Euclidian_Distance.GetValueOfEuclidianDistance(newCentroid,ClustersCendroid) > 0.5)
+            {
+                ClustersCendroid = newCentroid;
+                ChangeCentroid.Invoke(this, null);
+            }
         }
     }
 }

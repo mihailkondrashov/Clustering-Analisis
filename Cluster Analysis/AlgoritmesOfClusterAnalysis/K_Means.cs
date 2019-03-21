@@ -34,6 +34,11 @@ namespace Cluster_Analysis
         public Dictionary<string, Centroid> FinishesCentroids { get; private set; }
 
         /// <summary>
+        /// 
+        /// </summary>
+        private bool changedCentroids = true;
+
+        /// <summary>
         /// Стандартный конструктор класса K_Means
         /// </summary>
         public K_Means()
@@ -62,17 +67,30 @@ namespace Cluster_Analysis
         {
             //Создание объекта списка кластеров
             List<Cluster> clusters = new List<Cluster>();
-
-           //Получение начальных кластеров
+            FinishesCentroids = new Dictionary<string, Centroid>();
+            //
+            var changedClustering = true;
+            changedCentroids = true;
+            //Получение начальных кластеров
             GetStartingCentroid(clustered_Data);
 
             for (var i = 0; i < CountOfClusters;i++)
             {
                 clusters.Add(new Cluster(i+1,StartingsCentroids[$"Кластер - {i + 1}"]));
             }
-            UpdateClustering(clustered_Data, clusters);
 
+            while (changedClustering && changedCentroids)
+            {
+                UpdateClustering(clustered_Data, clusters);
+                UpdateCentroids(clusters);
+            }
 
+            foreach (var cluster in clusters)
+            {
+                FinishesCentroids.Add($"Кластер - {cluster.Id}", cluster.ClustersCendroid);
+            }
+
+            //EndClustering.Invoke(this, null);
 
             return clusters;
         }
@@ -104,31 +122,72 @@ namespace Cluster_Analysis
         /// </summary>
         /// <param name="clustered_Data"></param>
         /// <param name="clusters"></param>
-        public void UpdateClustering (List<Clustered_Data> clustered_Data, List<Cluster> clusters)
+        public bool UpdateClustering (List<Clustered_Data> clustered_Data, List<Cluster> clusters)
         {
+            bool changedClustering = false;
+
             foreach (var data in clustered_Data) 
             {
-                // Поиск 
-                var optimumCluster = (from cluster in clusters // определяем каждый объект из clusters как cluster
+                // Поиск объектов класса Cluster до центроидов которых минимальное растояние от data
+                var optimumClusters = (from cluster in clusters // определяем каждый объект из clusters как cluster
                                       where Euclidian_Distance.GetValueOfEuclidianDistance(cluster.ClustersCendroid, data) ==
-                 clusters.Min(a => Euclidian_Distance.GetValueOfEuclidianDistance(a.ClustersCendroid, data)) //Проверка условия поиска соответсвий
+                                            clusters.Min(a => Euclidian_Distance.GetValueOfEuclidianDistance(a.ClustersCendroid, data)) //Проверка условия поиска соответсвий
                                       select cluster);// выбираем объект
-                //
+
+                //Поиск объектов класса Cluster, которые имеют в данных кластера значение data
                 var clustersList = from cluster in clusters // определяем каждый объект из clusters как cluster
-                                   where cluster.Data.Any(a => a == data) && optimumCluster.Any(a => a != cluster)
+                                   where cluster.Data.Any(a => a == data) //Проверка условия поиска соответсвий
                                    select cluster;// выбираем объект
 
+                //У всех объектов класса Cluster в списке clustersList удаляем значение data
                 foreach (Cluster cluster in clustersList)
                 {
                     cluster.Data.Remove(data);
                 }
+                //Всем объектам класса Cluster в списке optimumClusters добавляем значение data
+                foreach (Cluster cluster in optimumClusters)
+                {
+                    cluster.Data.Add(data);
+                }
+                // Поиск объектов класса Cluster в списке optimumClusters с максимальным внутрикластерным расcтоянием
+                var nonOptimumClusters = from cluster in optimumClusters // определяем каждый объект из clusters как cluster
+                                          where cluster.IntraClusterDistance() != optimumClusters.Min(a => a.IntraClusterDistance())//Проверка условия поиска соответсвий
+                                          select cluster;// выбираем объект
 
-                //TODO: добавить алгоритм при наличии в optimumCluster нескольких кластеров (по средне кластерному растоянию)
-                //optimumCluster..Add(data);
+                // Производим удаление значения data у объектов класса Cluster в списке nonOptimumClusters
+                foreach (Cluster cluster in nonOptimumClusters)
+                {
+                    cluster.Data.Remove(data);
+                }
 
-
-
+                if ((!(optimumClusters.Count() == 1) && !(clustersList.Count() == 1) && !(optimumClusters == clustersList)) || !(optimumClusters.Count() == 1) && !(clustersList.Count() == 0))
+                {
+                    changedClustering = true;
+                }
             }
+
+            return changedClustering;
+        }
+
+        public void UpdateCentroids (List<Cluster> clusters)
+        {
+            changedCentroids = false;
+
+            foreach(var cluster in clusters)
+            {
+                cluster.ChangeCentroid += Cluster_ChangeCentroid;
+                cluster.GetGravityCenter();
+            } 
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Cluster_ChangeCentroid(object sender, EventArgs e)
+        {
+            changedCentroids = true;
         }
 
         /// <summary>
