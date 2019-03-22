@@ -8,5 +8,6 @@ namespace Cluster_Analysis.Interfaces
 {
     interface IMetricDistance
     {
+        //TODO: Реализовать возможность выбора различных метрик
     }
 }
