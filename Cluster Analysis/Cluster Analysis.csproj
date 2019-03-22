@@ -47,6 +47,7 @@
     <Compile Include="CommonClasses\Data.cs" />
     <Compile Include="Interfaces\IClustering.cs" />
     <Compile Include="AlgoritmesOfClusterAnalysis\K_Means.cs" />
+    <Compile Include="Interfaces\IMetricDistance.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

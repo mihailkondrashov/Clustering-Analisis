@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Cluster_Analysis.CommonClasses;
 using Cluster_Analysis.AlgoritmesOfClusterAnalysis.DistanceMetrics;
 using Cluster_Analysis;
+using System.Threading;
 
 namespace TestApp
 {
@@ -24,11 +25,12 @@ namespace TestApp
             datanew.Add(new Clustered_Data(20, 20));
 
             myStopwatch.Start(); //запуск
-            for (var i = 0; i < 1000; i++)
+            for (var i = 0; i < 10000; i++)
             {
                 K_Means<double> k_means = new K_Means<double>(2, 0.1);
                 clustersList.Add(k_means.Clustering(datanew));
                 k_meansList.Add(k_means);
+                //Thread.Sleep(10);
             }
             myStopwatch.Stop();
 
@@ -50,7 +52,7 @@ namespace TestApp
                 
 
             }
-
+            b = b / 2;
             var ads = new Cluster(1, new Centroid(1, 10));
             ads.IntraClusterDistance();
 
@@ -58,7 +60,7 @@ namespace TestApp
             //var nonOptimumClusters = from list in clustersList // определяем каждый объект из clusters как cluster
             //                         where 
             //                         select cluster.IntraClusterDistance();// выбираем объект
-            b = b / 2;
+           
 
 
         }

@@ -83,7 +83,7 @@ namespace Cluster_Analysis.CommonClasses
                 if (Euclidian_Distance.GetValueOfEuclidianDistance(newCentroid, ClustersCendroid) > 0.5)
                 {
                     ClustersCendroid = newCentroid;
-                    ChangeCentroid.Invoke(this, null);
+                    ChangeCentroid?.Invoke(this, null);
                 }
             }
             else

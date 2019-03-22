@@ -89,10 +89,20 @@ namespace Cluster_Analysis
             {
                 FinishesCentroids.Add($"Кластер - {cluster.Id}", cluster.ClustersCendroid);
             }
-
-            //EndClustering.Invoke(this, null);
+            if (true)
+            {
+                EndClustering?.Invoke(this,null);
+            }
 
             return clusters;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public void AvarageIntraClustersDistances()
+        {
+
         }
 
         /// <summary>
