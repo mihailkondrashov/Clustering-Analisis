@@ -18,16 +18,19 @@ namespace TestApp
             List<K_Means<double>> k_meansList = new List<K_Means<double>>();
             List<List<Cluster>> clustersList = new List<List<Cluster>>();
             System.Diagnostics.Stopwatch myStopwatch = new System.Diagnostics.Stopwatch();
+            Euclidian_Distance distance = new Euclidian_Distance();
 
             datanew.Add(new Clustered_Data(1,1));
             datanew.Add(new Clustered_Data(1, 20));
             datanew.Add(new Clustered_Data(20, 1));
             datanew.Add(new Clustered_Data(20, 20));
 
+            
+
             myStopwatch.Start(); //запуск
             for (var i = 0; i < 10000; i++)
             {
-                K_Means<double> k_means = new K_Means<double>(2, 0.1);
+                K_Means<double> k_means = new K_Means<double>(2, 0.1, distance);
                 clustersList.Add(k_means.Clustering(datanew));
                 k_meansList.Add(k_means);
                 //Thread.Sleep(10);
@@ -54,7 +57,7 @@ namespace TestApp
             }
             b = b / 2;
             var ads = new Cluster(1, new Centroid(1, 10));
-            ads.IntraClusterDistance();
+            //ads.IntraClusterDistance();
 
             //// Поиск объектов класса Cluster в списке optimumClusters с максимальным внутрикластерным расcтоянием
             //var nonOptimumClusters = from list in clustersList // определяем каждый объект из clusters как cluster

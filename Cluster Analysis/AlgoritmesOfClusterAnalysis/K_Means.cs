@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Cluster_Analysis.CommonClasses;
 using System.Linq;
 using Cluster_Analysis.AlgoritmesOfClusterAnalysis.DistanceMetrics;
+using Cluster_Analysis.Interfaces;
 
 namespace Cluster_Analysis
 {
@@ -39,6 +40,11 @@ namespace Cluster_Analysis
         private bool changedCentroids = true;
 
         /// <summary>
+        /// 
+        /// </summary>
+        private IMetricDistance _metricDistance;
+
+        /// <summary>
         /// Стандартный конструктор класса K_Means
         /// </summary>
         public K_Means()
@@ -46,16 +52,18 @@ namespace Cluster_Analysis
             //Количество кластеров по умолчанию
             CountOfClusters = 2;
             CoefficientTaboo = 0;
+            _metricDistance = new Euclidian_Distance();
         }
 
         /// <summary>
         /// Расширенный конструктор класса K_Means
         /// </summary>
         /// <param name="countOfClusters">Количество кластеров</param>
-        public K_Means(int countOfClusters, double coefficientTaboo)
+        public K_Means(int countOfClusters, double coefficientTaboo, IMetricDistance metricDistance)
         {
             CountOfClusters = countOfClusters;
             CoefficientTaboo = coefficientTaboo;
+            _metricDistance = metricDistance;
         }
 
         /// <summary>
@@ -138,11 +146,18 @@ namespace Cluster_Analysis
 
             foreach (var data in clustered_Data) 
             {
+                //// Поиск объектов класса Cluster до центроидов которых минимальное растояние от data
+                //var optimumClusters = (from cluster in clusters // определяем каждый объект из clusters как cluster
+                //                      where Euclidian_Distance.GetValueOfEuclidianDistance(cluster.ClustersCendroid, data) ==
+                //                            clusters.Min(a => Euclidian_Distance.GetValueOfEuclidianDistance(a.ClustersCendroid, data)) //Проверка условия поиска соответсвий
+                //                      select cluster);// выбираем объект
+
                 // Поиск объектов класса Cluster до центроидов которых минимальное растояние от data
                 var optimumClusters = (from cluster in clusters // определяем каждый объект из clusters как cluster
-                                      where Euclidian_Distance.GetValueOfEuclidianDistance(cluster.ClustersCendroid, data) ==
-                                            clusters.Min(a => Euclidian_Distance.GetValueOfEuclidianDistance(a.ClustersCendroid, data)) //Проверка условия поиска соответсвий
-                                      select cluster);// выбираем объект
+                                       where _metricDistance.GetValueOfDistance(cluster.ClustersCendroid, data) ==
+                                             clusters.Min(a => _metricDistance.GetValueOfDistance(a.ClustersCendroid, data)) //Проверка условия поиска соответсвий
+                                       select cluster);// выбираем объект
+
 
                 //Поиск объектов класса Cluster, которые имеют в данных кластера значение data
                 var clustersList = from cluster in clusters // определяем каждый объект из clusters как cluster
@@ -161,7 +176,7 @@ namespace Cluster_Analysis
                 }
                 // Поиск объектов класса Cluster в списке optimumClusters с максимальным внутрикластерным расcтоянием
                 var nonOptimumClusters = from cluster in optimumClusters // определяем каждый объект из clusters как cluster
-                                          where cluster.IntraClusterDistance() != optimumClusters.Min(a => a.IntraClusterDistance())//Проверка условия поиска соответсвий
+                                          where cluster.IntraClusterDistance(_metricDistance) != optimumClusters.Min(a => a.IntraClusterDistance(_metricDistance))//Проверка условия поиска соответсвий
                                           select cluster;// выбираем объект
 
                 // Производим удаление значения data у объектов класса Cluster в списке nonOptimumClusters
@@ -186,7 +201,7 @@ namespace Cluster_Analysis
             foreach(var cluster in clusters)
             {
                 cluster.ChangeCentroid += Cluster_ChangeCentroid;
-                cluster.GetGravityCenter();
+                cluster.GetGravityCenter(_metricDistance);
             } 
         }
 
@@ -208,7 +223,7 @@ namespace Cluster_Analysis
         {
             for (var j = 0; j < StartingsCentroids.Count - 1; j++)
             {
-                while (Euclidian_Distance.GetValueOfEuclidianDistance(StartingsCentroids[$"Кластер - {j + 1}"], StartingsCentroids[$"Кластер - {StartingsCentroids.Count}"]) <
+                while (_metricDistance.GetValueOfDistance(StartingsCentroids[$"Кластер - {j + 1}"], StartingsCentroids[$"Кластер - {StartingsCentroids.Count}"]) <
                                     CoefficientTaboo * Math.Min(clustered_Data.Max(a => a.X) - clustered_Data.Min(a => a.X), clustered_Data.Max(a => a.Y) - clustered_Data.Min(a => a.Y)))
                 {
                     StartingsCentroids[$"Кластер - {StartingsCentroids.Count}"] = new Centroid(randomCentroid.Next((int)clustered_Data.Min(a => a.X), (int)clustered_Data.Max(a => a.X) + 1),

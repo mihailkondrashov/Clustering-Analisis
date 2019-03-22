@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Cluster_Analysis.CommonClasses;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace Cluster_Analysis.Interfaces
 {
-    interface IMetricDistance
+    public interface IMetricDistance
     {
-        //TODO: Реализовать возможность выбора различных метрик
+        double GetValueOfDistance(Data One, Data Two);
     }
 }

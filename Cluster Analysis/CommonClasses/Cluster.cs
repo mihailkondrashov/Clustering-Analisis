@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Cluster_Analysis.AlgoritmesOfClusterAnalysis.DistanceMetrics;
 using System.Linq;
+using Cluster_Analysis.Interfaces;
 
 namespace Cluster_Analysis.CommonClasses
 {
@@ -55,7 +56,7 @@ namespace Cluster_Analysis.CommonClasses
         /// <summary>
         /// Расчет внутрикластерного расстояния
         /// </summary>
-        public double IntraClusterDistance()
+        public double IntraClusterDistance(IMetricDistance metricDistance)
         {
             double intraClusterDistance = 0.0;
             //Недопущение деления на ноль
@@ -65,7 +66,8 @@ namespace Cluster_Analysis.CommonClasses
             }
             else
             {
-                intraClusterDistance = Data.Average(a => Euclidian_Distance.GetValueOfEuclidianDistance(ClustersCendroid, a));
+                //intraClusterDistance = Data.Average(a => Euclidian_Distance.GetValueOfEuclidianDistance(ClustersCendroid, a));
+                intraClusterDistance = Data.Average(a => metricDistance.GetValueOfDistance(ClustersCendroid, a));
             }
             return Math.Round(intraClusterDistance, 3);
         }
@@ -73,14 +75,14 @@ namespace Cluster_Analysis.CommonClasses
         /// <summary>
         /// 
         /// </summary>
-        public void GetGravityCenter()
+        public void GetGravityCenter(IMetricDistance metricDistance)
         {
             if (Data.Count != 0)
             {
                 //Расчет центра тяжести кластера
                 Centroid newCentroid = new Centroid(Data.Average(a => a.X), Data.Average(a => a.Y));
                 //Изменение кластерного центроида
-                if (Euclidian_Distance.GetValueOfEuclidianDistance(newCentroid, ClustersCendroid) > 0.5)
+                if (metricDistance.GetValueOfDistance(newCentroid, ClustersCendroid) > 0.5)
                 {
                     ClustersCendroid = newCentroid;
                     ChangeCentroid?.Invoke(this, null);
