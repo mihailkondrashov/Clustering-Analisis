@@ -34,6 +34,8 @@ namespace Cluster_Analysis
         /// </summary>
         public Dictionary<string, Centroid> FinishesCentroids { get; private set; }
 
+        public double AvarageIntraClustersDistances { get; set; }
+
         /// <summary>
         /// 
         /// </summary>
@@ -94,23 +96,14 @@ namespace Cluster_Analysis
             }
             foreach (var cluster in clusters)
             {
-                cluster.SetCentroidLikeGravityCenter(_metricDistance);
                 FinishesCentroids.Add($"Кластер - {cluster.Id}", cluster.ClustersCendroid);
             }
 
-            if (true)
-            {
-                EndClustering?.Invoke(this, null);
-            }
+            AvarageIntraClustersDistances = clusters.Average(a => a.IntraClusterDistance(_metricDistance));
+
+            EndClustering?.Invoke(this, null);
+
             return clusters;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public void AvarageIntraClustersDistances()
-        {
-
         }
 
         /// <summary>

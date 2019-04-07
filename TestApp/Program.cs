@@ -33,15 +33,7 @@ namespace TestApp
                 K_Means<double> k_means = new K_Means<double>(2, 0.1, distance);
                 clustersList.Add(k_means.Clustering(datanew));
                 k_meansList.Add(k_means);
-                var qwerty = clustersList[clustersList.Count - 1].Where(q => q.ClustersCendroid.X == 10.0 || q.ClustersCendroid.Y == 10.0);
-
-                if (qwerty.Count() != 0)
-                {
-                    Console.WriteLine();
-                    Centroid center = qwerty.First().GetGravityCenter();
-                }
-
-                Thread.Sleep(20);
+                Thread.Sleep(10);
             }
             myStopwatch.Stop();
 
@@ -59,6 +51,7 @@ namespace TestApp
                 a += list.Count(q => q.Data.Count == 3);
                 b += list.Count(q => q.Data.Count == 2);
                 c += list.Count(q => q.Data.Count == 1);
+                d += list.Count(q => q.Data.Count == 0);
             }
             b = b / 2;
             var ads = new Cluster(1, new Centroid(1, 10));

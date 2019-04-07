@@ -15,6 +15,11 @@ namespace Cluster_Analysis
         int CountOfClusters { get; set; }
 
         /// <summary>
+        /// Значение среднего внутрикластерного расстояния для всего решения 
+        /// </summary>
+        double AvarageIntraClustersDistances{ get; set; }
+
+        /// <summary>
         /// Событие завершения расчета кластерного анализа 
         /// </summary>
         event EventHandler EndClustering;
