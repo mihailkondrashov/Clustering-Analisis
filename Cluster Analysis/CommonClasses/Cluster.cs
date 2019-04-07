@@ -66,7 +66,6 @@ namespace Cluster_Analysis.CommonClasses
             }
             else
             {
-                //intraClusterDistance = Data.Average(a => Euclidian_Distance.GetValueOfEuclidianDistance(ClustersCendroid, a));
                 intraClusterDistance = Data.Average(a => metricDistance.GetValueOfDistance(ClustersCendroid, a));
             }
             return Math.Round(intraClusterDistance, 3);
@@ -75,16 +74,14 @@ namespace Cluster_Analysis.CommonClasses
         /// <summary>
         /// 
         /// </summary>
-        public void GetGravityCenter(IMetricDistance metricDistance)
+        public void SetCentroidLikeGravityCenter(IMetricDistance metricDistance)
         {
             if (Data.Count != 0)
             {
-                //Расчет центра тяжести кластера
-                Centroid newCentroid = new Centroid(Data.Average(a => a.X), Data.Average(a => a.Y));
                 //Изменение кластерного центроида
-                if (metricDistance.GetValueOfDistance(newCentroid, ClustersCendroid) > 0.5)
+                if (metricDistance.GetValueOfDistance(GetGravityCenter(), ClustersCendroid) > 0.01)
                 {
-                    ClustersCendroid = newCentroid;
+                    ClustersCendroid = new Centroid(GetGravityCenter().X, GetGravityCenter().Y);
                     ChangeCentroid?.Invoke(this, null);
                 }
             }
@@ -92,6 +89,13 @@ namespace Cluster_Analysis.CommonClasses
             {
                 ClustersCendroid = ClustersCendroid;
             }
+        }
+
+        public Centroid GetGravityCenter()
+        {
+            //Расчет центра тяжести кластера
+             Centroid newCentroid = new Centroid(Data.Average(a => a.X), Data.Average(a => a.Y));
+             return newCentroid;
         }
     }
 }

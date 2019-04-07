@@ -92,16 +92,16 @@ namespace Cluster_Analysis
                 UpdateClustering(clustered_Data, clusters);
                 UpdateCentroids(clusters);
             }
-
             foreach (var cluster in clusters)
             {
+                cluster.SetCentroidLikeGravityCenter(_metricDistance);
                 FinishesCentroids.Add($"Кластер - {cluster.Id}", cluster.ClustersCendroid);
             }
+
             if (true)
             {
-                EndClustering?.Invoke(this,null);
+                EndClustering?.Invoke(this, null);
             }
-
             return clusters;
         }
 
@@ -146,12 +146,6 @@ namespace Cluster_Analysis
 
             foreach (var data in clustered_Data) 
             {
-                //// Поиск объектов класса Cluster до центроидов которых минимальное растояние от data
-                //var optimumClusters = (from cluster in clusters // определяем каждый объект из clusters как cluster
-                //                      where Euclidian_Distance.GetValueOfEuclidianDistance(cluster.ClustersCendroid, data) ==
-                //                            clusters.Min(a => Euclidian_Distance.GetValueOfEuclidianDistance(a.ClustersCendroid, data)) //Проверка условия поиска соответсвий
-                //                      select cluster);// выбираем объект
-
                 // Поиск объектов класса Cluster до центроидов которых минимальное растояние от data
                 var optimumClusters = (from cluster in clusters // определяем каждый объект из clusters как cluster
                                        where _metricDistance.GetValueOfDistance(cluster.ClustersCendroid, data) ==
@@ -201,7 +195,7 @@ namespace Cluster_Analysis
             foreach(var cluster in clusters)
             {
                 cluster.ChangeCentroid += Cluster_ChangeCentroid;
-                cluster.GetGravityCenter(_metricDistance);
+                cluster.SetCentroidLikeGravityCenter(_metricDistance);
             } 
         }
 
@@ -231,9 +225,5 @@ namespace Cluster_Analysis
                 }
             }
         }
-
-
-
-
     }
 }
