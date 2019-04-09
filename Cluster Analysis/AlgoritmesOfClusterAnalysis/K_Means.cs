@@ -172,6 +172,17 @@ namespace Cluster_Analysis
                     cluster.Data.Remove(data);
                 }
 
+                //Проверка наличия объекта data только у одного кластера
+                var checkList = from cluster in clusters // определяем каждый объект из clusters как cluster
+                    where cluster.Data.Any(a => a == data) //Проверка условия поиска соответсвий
+                    select cluster;// выбираем объект
+   
+
+                if (checkList.Count() > 1)
+                {
+                    checkList.ToList()[0].Data.Remove(data);
+                }
+
                 if ((!(optimumClusters.Count() == 1) && !(clustersList.Count() == 1) && !(optimumClusters == clustersList)) || !(optimumClusters.Count() == 1) && !(clustersList.Count() == 0))
                 {
                     changedClustering = true;
