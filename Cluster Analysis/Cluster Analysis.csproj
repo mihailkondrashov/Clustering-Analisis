@@ -40,7 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AlgoritmesOfClusterAnalysis\DistanceMetrics\Euclidian_Distance.cs" />
+    <Compile Include="DistanceMetrics\Euclidian_Distance.cs" />
     <Compile Include="CommonClasses\Centroid.cs" />
     <Compile Include="CommonClasses\Cluster.cs" />
     <Compile Include="CommonClasses\Clustered_Data.cs" />
