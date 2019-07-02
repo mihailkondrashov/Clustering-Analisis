@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using Cluster_Analysis.CommonClasses;
 using System.Linq;
-using Cluster_Analysis.AlgoritmesOfClusterAnalysis.DistanceMetrics;
+using Cluster_Analysis.CommonClasses;
+using Cluster_Analysis.DistanceMetrics;
 using Cluster_Analysis.Interfaces;
 
-namespace Cluster_Analysis
+namespace Cluster_Analysis.AlgoritmesOfClusterAnalysis
 {
-    public class K_Means<T>:IClustering<T>
+    public class K_Means:IClusteringMethod
     {
         /// <summary>
         /// Количество вычисляемых кластеров
@@ -34,12 +34,15 @@ namespace Cluster_Analysis
         /// </summary>
         public Dictionary<string, Centroid> FinishesCentroids { get; private set; }
 
-        public double AvarageIntraClustersDistances { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public double AvarageIntraclusterDistances { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        private bool changedCentroids = true;
+        private bool _changedCentroids = true;
 
         /// <summary>
         /// 
@@ -54,13 +57,15 @@ namespace Cluster_Analysis
             //Количество кластеров по умолчанию
             CountOfClusters = 2;
             CoefficientTaboo = 0;
-            _metricDistance = new Euclidian_Distance();
+            _metricDistance = new EuclidianDistance();
         }
 
         /// <summary>
         /// Расширенный конструктор класса K_Means
         /// </summary>
         /// <param name="countOfClusters">Количество кластеров</param>
+        /// <param name="coefficientTaboo"></param>
+        /// <param name="metricDistance"></param>
         public K_Means(int countOfClusters, double coefficientTaboo, IMetricDistance metricDistance)
         {
             CountOfClusters = countOfClusters;
@@ -71,27 +76,27 @@ namespace Cluster_Analysis
         /// <summary>
         /// Метод кластеризации
         /// </summary>
-        /// <param name="clustered_Data">Кластеризуемые данные</param>
+        /// <param name="clusteredData">Кластеризуемые данные</param>
         /// <returns>Список кластеров</returns>
-        public List<Cluster> Clustering(List<Clustered_Data> clustered_Data)
+        public List<Cluster> Clustering(List<ClusteredData> clusteredData)
         {
             //Создание объекта списка кластеров
-            List<Cluster> clusters = new List<Cluster>();
+            var clusters = new List<Cluster>();
             FinishesCentroids = new Dictionary<string, Centroid>();
             //
             var changedClustering = true;
-            changedCentroids = true;
+            _changedCentroids = true;
             //Получение начальных кластеров
-            GetStartingCentroid(clustered_Data);
+            GetStartingCentroid(clusteredData);
 
             for (var i = 0; i < CountOfClusters;i++)
             {
                 clusters.Add(new Cluster(i+1,StartingsCentroids[$"Кластер - {i + 1}"]));
             }
 
-            while (changedClustering && changedCentroids)
+            while (changedClustering && _changedCentroids)
             {
-                UpdateClustering(clustered_Data, clusters);
+                UpdateClustering(clusteredData, clusters);
                 UpdateCentroids(clusters);
             }
             foreach (var cluster in clusters)
@@ -99,7 +104,7 @@ namespace Cluster_Analysis
                 FinishesCentroids.Add($"Кластер - {cluster.Id}", cluster.ClustersCendroid);
             }
 
-            AvarageIntraClustersDistances = clusters.Average(a => a.IntraClusterDistance(_metricDistance));
+            AvarageIntraclusterDistances = clusters.Average(a => a.IntraClusterDistance(_metricDistance));
 
             EndClustering?.Invoke(this, null);
 
@@ -109,8 +114,8 @@ namespace Cluster_Analysis
         /// <summary>
         /// Получение начальных центроидов кластера
         /// </summary>
-        /// <param name="clustered_Data">Кластеризуемые данные</param>
-        private void GetStartingCentroid(List<Clustered_Data> clustered_Data)
+        /// <param name="clusteredData">Кластеризуемые данные</param>
+        private void GetStartingCentroid(List<ClusteredData> clusteredData)
         {
             //Инициализация массива начальных центроидов
             StartingsCentroids = new Dictionary<string, Centroid>();
@@ -120,24 +125,24 @@ namespace Cluster_Analysis
             for (int i = 0; i < CountOfClusters; ++i)
             {
                 //Получение случайных значений координат центроида в диапазоне исходных данных
-                StartingsCentroids.Add($"Кластер - {i + 1}", new Centroid(randomCentroid.Next((int)clustered_Data.Min(a => a.X), (int)clustered_Data.Max(a => a.X) + 1),
-                    randomCentroid.Next((int)clustered_Data.Min(a => a.Y), (int)clustered_Data.Max(a => a.Y) + 1)));
+                StartingsCentroids.Add($"Кластер - {i + 1}", new Centroid(randomCentroid.Next((int)clusteredData.Min(a => a.X), (int)clusteredData.Max(a => a.X) + 1),
+                    randomCentroid.Next((int)clusteredData.Min(a => a.Y), (int)clusteredData.Max(a => a.Y) + 1)));
 
                 //Проверка на генерацию начальных центроидов вне запретной зоны
-                CheckStartingCentroidPosition(clustered_Data, randomCentroid);
+                CheckStartingCentroidPosition(clusteredData, randomCentroid);
             }
         }
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="clustered_Data"></param>
+        /// <param name="clusteredData"></param>
         /// <param name="clusters"></param>
-        private bool UpdateClustering (List<Clustered_Data> clustered_Data, List<Cluster> clusters)
+        private bool UpdateClustering (List<ClusteredData> clusteredData, List<Cluster> clusters)
         {
             bool changedClustering = false;
 
-            foreach (var data in clustered_Data) 
+            foreach (var data in clusteredData) 
             {
                 // Поиск объектов класса Cluster до центроидов которых минимальное растояние от data
                 var optimumClusters = (from cluster in clusters // определяем каждый объект из clusters как cluster
@@ -192,9 +197,13 @@ namespace Cluster_Analysis
             return changedClustering;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="clusters"></param>
         private void UpdateCentroids (List<Cluster> clusters)
         {
-            changedCentroids = false;
+            _changedCentroids = false;
 
             foreach(var cluster in clusters)
             {
@@ -210,22 +219,23 @@ namespace Cluster_Analysis
         /// <param name="e"></param>
         private void Cluster_ChangeCentroid(object sender, EventArgs e)
         {
-            changedCentroids = true;
+            _changedCentroids = true;
         }
 
         /// <summary>
         /// Проверка на генерацию начальных центроидов вне запретной зоны
         /// </summary>
-        /// <param name="clustered_Data">Кластеризуемые данные</param>
-        private void CheckStartingCentroidPosition(List<Clustered_Data> clustered_Data, Random randomCentroid)
+        /// <param name="clusteredData">Кластеризуемые данные</param>
+        /// <param name="randomCentroid"></param>
+        private void CheckStartingCentroidPosition(List<ClusteredData> clusteredData, Random randomCentroid)
         {
             for (var j = 0; j < StartingsCentroids.Count - 1; j++)
             {
                 while (_metricDistance.GetValueOfDistance(StartingsCentroids[$"Кластер - {j + 1}"], StartingsCentroids[$"Кластер - {StartingsCentroids.Count}"]) <
-                                    CoefficientTaboo * Math.Min(clustered_Data.Max(a => a.X) - clustered_Data.Min(a => a.X), clustered_Data.Max(a => a.Y) - clustered_Data.Min(a => a.Y)))
+                                    CoefficientTaboo * Math.Min(clusteredData.Max(a => a.X) - clusteredData.Min(a => a.X), clusteredData.Max(a => a.Y) - clusteredData.Min(a => a.Y)))
                 {
-                    StartingsCentroids[$"Кластер - {StartingsCentroids.Count}"] = new Centroid(randomCentroid.Next((int)clustered_Data.Min(a => a.X), (int)clustered_Data.Max(a => a.X) + 1),
-                        randomCentroid.Next((int)clustered_Data.Min(a => a.Y), (int)clustered_Data.Max(a => a.Y) + 1));
+                    StartingsCentroids[$"Кластер - {StartingsCentroids.Count}"] = new Centroid(randomCentroid.Next((int)clusteredData.Min(a => a.X), (int)clusteredData.Max(a => a.X) + 1),
+                        randomCentroid.Next((int)clusteredData.Min(a => a.Y), (int)clusteredData.Max(a => a.Y) + 1));
                 }
             }
         }

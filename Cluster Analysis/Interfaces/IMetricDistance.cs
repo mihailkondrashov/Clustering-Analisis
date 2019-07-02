@@ -1,14 +1,18 @@
 ﻿using Cluster_Analysis.CommonClasses;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Cluster_Analysis.Interfaces
 {
+    /// <summary>
+    /// Metric for calculating distances between points
+    /// </summary>
     public interface IMetricDistance
     {
-        double GetValueOfDistance(Data One, Data Two);
+        /// <summary>
+        /// Method of calculating distances between points
+        /// </summary>
+        /// <param name="one">Object of class Data</param>
+        /// <param name="two">Object of class Data</param>
+        /// <returns>Value of distance between points</returns>
+        double GetValueOfDistance(Data one, Data two);
     }
 }

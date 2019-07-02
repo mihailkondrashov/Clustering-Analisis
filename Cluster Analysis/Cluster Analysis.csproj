@@ -40,18 +40,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DistanceMetrics\Euclidian_Distance.cs" />
+    <Compile Include="ClusterAnalysis.cs" />
+    <Compile Include="DistanceMetrics\EuclidianDistance.cs" />
     <Compile Include="CommonClasses\Centroid.cs" />
     <Compile Include="CommonClasses\Cluster.cs" />
     <Compile Include="CommonClasses\Clustered_Data.cs" />
     <Compile Include="CommonClasses\Data.cs" />
-    <Compile Include="Interfaces\IClustering.cs" />
+    <Compile Include="Interfaces\IClusteringMethod.cs" />
     <Compile Include="AlgoritmesOfClusterAnalysis\K_Means.cs" />
     <Compile Include="Interfaces\IMetricDistance.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="ClassDiagram.cd" />
+    <None Include="ClusterAnalisysDiagram.cd" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

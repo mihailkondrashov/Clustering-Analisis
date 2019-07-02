@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cluster Analysis", "Cluster Analysis\Cluster Analysis.csproj", "{C7C75E26-6ED0-476E-A85A-392BA349E7EE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestApp", "TestApp\TestApp.csproj", "{D0BEA25C-5429-480A-8678-78EE09D60907}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClusterAnalysisTests", "ClusterAnalysisTests\ClusterAnalysisTests.csproj", "{8127890A-56DC-42D7-A266-BB92CF134907}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{D0BEA25C-5429-480A-8678-78EE09D60907}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D0BEA25C-5429-480A-8678-78EE09D60907}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D0BEA25C-5429-480A-8678-78EE09D60907}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8127890A-56DC-42D7-A266-BB92CF134907}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8127890A-56DC-42D7-A266-BB92CF134907}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8127890A-56DC-42D7-A266-BB92CF134907}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8127890A-56DC-42D7-A266-BB92CF134907}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

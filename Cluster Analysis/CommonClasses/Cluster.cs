@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Cluster_Analysis.AlgoritmesOfClusterAnalysis.DistanceMetrics;
 using System.Linq;
 using Cluster_Analysis.Interfaces;
 
@@ -9,32 +8,32 @@ namespace Cluster_Analysis.CommonClasses
     public class Cluster
     {
         /// <summary>
-        /// Идентификатор кластера
+        /// Id cluster
         /// </summary>
         public int Id { get; set; }
 
         /// <summary>
-        /// Данные входящие в кластер
+        /// Clusters data
         /// </summary>
-        public List<Clustered_Data> Data { get; private set; }
+        public List<ClusteredData> Data { get; private set; }
 
         /// <summary>
-        /// Центроид кластера
+        /// Object of class cendroid for cluster
         /// </summary>
         public Centroid ClustersCendroid { get; private set; }
 
         /// <summary>
-        /// Событие изменения кластерного центроида
+        /// The Event changing the cluster centroid
         /// </summary>
         public event EventHandler ChangeCentroid;
 
         /// <summary>
-        /// Конструктор класса Cluster
+        /// Constructor of class Cluster
         /// </summary>
-        /// <param name="id">Идентификатор</param>
-        /// <param name="data">Данные, относящиеся к кластеру</param>
-        /// <param name="cendroid">Центроид кластера</param>
-        public Cluster(int id, List<Clustered_Data> data, Centroid cendroid)
+        /// <param name="id">Id</param>
+        /// <param name="data">Clusters data</param>
+        /// <param name="cendroid">Object of class cendroid for cluster</param>
+        public Cluster(int id, List<ClusteredData> data, Centroid cendroid)
         {
             Id = id;
             Data = data;
@@ -42,24 +41,26 @@ namespace Cluster_Analysis.CommonClasses
         }
 
         /// <summary>
-        /// Конструктор класса Cluster
+        /// Constructor of class Cluster
         /// </summary>
-        /// <param name="id">Идентификатор</param>
-        /// <param name="cendroid">Центроид кластера</param>
+        /// <param name="id">Id</param>
+        /// <param name="cendroid">Object of class cendroid for cluster</param>
         public Cluster(int id, Centroid cendroid)
         {
             Id = id;
-            Data = new List<Clustered_Data>();
+            Data = new List<ClusteredData>();
             ClustersCendroid = cendroid;
         }
 
         /// <summary>
-        /// Расчет внутрикластерного расстояния
+        /// The calculation of the intracluster distances
         /// </summary>
+        /// <param name="metricDistance">Method of calculating intracluster distance</param>
+        /// <returns>Value of intracluster distance </returns>
         public double IntraClusterDistance(IMetricDistance metricDistance)
         {
             double intraClusterDistance = 0.0;
-            //Недопущение деления на ноль
+            //Avoiding division by zero
             if (Data.Count == 0)
             {
                 intraClusterDistance = 0;
@@ -72,13 +73,13 @@ namespace Cluster_Analysis.CommonClasses
         }
 
         /// <summary>
-        /// 
+        /// Redefining the cluster centroid according to the center of gravity
         /// </summary>
+        /// <param name="metricDistance">Method of calculating distance</param>
         public void SetCentroidLikeGravityCenter(IMetricDistance metricDistance)
         {
             if (Data.Count != 0)
             {
-                //Изменение кластерного центроида
                 if (metricDistance.GetValueOfDistance(GetGravityCenter(), ClustersCendroid) > 0.01)
                 {
                     ClustersCendroid = new Centroid(GetGravityCenter().X, GetGravityCenter().Y);
@@ -91,9 +92,12 @@ namespace Cluster_Analysis.CommonClasses
             }
         }
 
+        /// <summary>
+        /// Calculating the center of gravity for a cluster
+        /// </summary>
+        /// <returns>Object of class cendroid for cluster</returns>
         public Centroid GetGravityCenter()
         {
-            //Расчет центра тяжести кластера
              Centroid newCentroid = new Centroid(Data.Average(a => a.X), Data.Average(a => a.Y));
              return newCentroid;
         }

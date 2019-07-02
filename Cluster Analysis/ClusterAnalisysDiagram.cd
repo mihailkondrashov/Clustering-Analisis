@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
+  <Class Name="Cluster_Analysis.CommonClasses.Data">
+    <Position X="9.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAYAA=</HashCode>
+      <FileName>CommonClasses\Data.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Cluster_Analysis.CommonClasses.Centroid">
+    <Position X="8" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CommonClasses\Centroid.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Cluster_Analysis.AlgoritmesOfClusterAnalysis.K_Means">
+    <Position X="0.5" Y="3.5" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>DAAAAIAAAAAAAAAQAAAAIABCQAAAQAAAEAgAEAAAgEA=</HashCode>
+      <FileName>AlgoritmesOfClusterAnalysis\K_Means.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Cluster_Analysis.CommonClasses.Cluster">
+    <Position X="4.5" Y="5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAAAAAAAABCCAAEIAAAABAA=</HashCode>
+      <FileName>CommonClasses\Cluster.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Cluster_Analysis.ClusterAnalysis">
+    <Position X="9.25" Y="4.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAQAAAAACAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ClusterAnalysis.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Cluster_Analysis.DistanceMetrics.EuclidianDistance">
+    <Position X="4.5" Y="3.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DistanceMetrics\EuclidianDistance.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Cluster_Analysis.CommonClasses.ClusteredData">
+    <Position X="11" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CommonClasses\Clustered_Data.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="Cluster_Analysis.Interfaces.IMetricDistance">
+    <Position X="4.5" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Interfaces\IMetricDistance.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Cluster_Analysis.Interfaces.IClusteringMethod">
+    <Position X="0.5" Y="0.5" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAAAAAAAAQAAAAAAAAQAAAAAAAAAgAAAAAAAA=</HashCode>
+      <FileName>Interfaces\IClusteringMethod.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
