@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
+using Cluster_Analysis;
 using Cluster_Analysis.AlgoritmesOfClusterAnalysis;
 using Cluster_Analysis.CommonClasses;
 using Cluster_Analysis.DistanceMetrics;
@@ -15,14 +16,26 @@ namespace TestApp
         static void Main(string[] args)
         {
             List<ClusteredData> datanew = new List<ClusteredData>();
+            EuclidianDistance distance = new EuclidianDistance();
+            K_Means k_means = new K_Means(2, 0.1, distance);
+            ClusterAnalysis clusterAnalysis = new ClusterAnalysis(k_means);
+
+            datanew.Add(new ClusteredData(0, 0));
+            datanew.Add(new ClusteredData(0, 20));
+            datanew.Add(new ClusteredData(20, 0));
+            datanew.Add(new ClusteredData(20, 20));
+
+            var list = clusterAnalysis.Clustering(datanew);
+            /*
+            List<ClusteredData> datanew = new List<ClusteredData>();
             List<K_Means> k_meansList = new List<K_Means>();
             List<List<Cluster>> clustersList = new List<List<Cluster>>();
             System.Diagnostics.Stopwatch myStopwatch = new System.Diagnostics.Stopwatch();
             EuclidianDistance distance = new EuclidianDistance();
 
-            datanew.Add(new ClusteredData(1,1));
-            datanew.Add(new ClusteredData(1, 20));
-            datanew.Add(new ClusteredData(20, 1));
+            datanew.Add(new ClusteredData(0,0));
+            datanew.Add(new ClusteredData(0, 20));
+            datanew.Add(new ClusteredData(20, 0));
             datanew.Add(new ClusteredData(20, 20));
 
             var ewrt = datanew.Select(Er => Er.X);
@@ -40,6 +53,11 @@ namespace TestApp
                 clustersList.Add(k_means.Clustering(datanew));
                 k_meansList.Add(k_means);
                 Thread.Sleep(10);
+
+                var flag = k_means.FinishesCentroids.ContainsValue(new Centroid(0, 0));
+                var flag1 = k_means.FinishesCentroids.ContainsValue(new Centroid(0, 20));
+                var flag2 = k_means.FinishesCentroids.ContainsValue(new Centroid(20, 20));
+                var flag3 = k_means.FinishesCentroids.ContainsValue(new Centroid(20, 0));
             }
             myStopwatch.Stop();
 
@@ -67,7 +85,7 @@ namespace TestApp
             //                         where 
             //                         select cluster.IntraClusterDistance();// выбираем объект
            
-
+    */
 
         }
     }

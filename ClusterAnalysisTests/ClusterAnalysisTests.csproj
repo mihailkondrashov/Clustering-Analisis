@@ -52,7 +52,6 @@
   <ItemGroup>
     <Compile Include="AlgoritmesOfClusterAnalysis\K_MeansTests.cs" />
     <Compile Include="ClusterAnalysisTests.cs" />
-    <Compile Include="CommonClasses\ClusterTests.cs" />
     <Compile Include="DistanceMetrics\EuclidianDistanceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
