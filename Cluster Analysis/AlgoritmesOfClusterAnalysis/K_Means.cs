@@ -51,6 +51,9 @@ namespace Cluster_Analysis.AlgoritmesOfClusterAnalysis
 
         /// <summary>
         /// Стандартный конструктор класса K_Means
+        /// CountOfClusters = 2
+        /// CoefficientTaboo = 0
+        /// Euclidian Distance
         /// </summary>
         public K_Means()
         {
